@@ -22,10 +22,10 @@ export default function AdminPage() {
         <div className="container animate-in">
             <header style={{ textAlign: 'center', marginBottom: '3rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-                    <LayoutDashboard size={28} color="var(--accent)" />
-                    <h1 style={{ fontSize: '2.5rem' }}>Aura Staff</h1>
+                    <LayoutDashboard size={28} color="var(--primary)" />
+                    <h1 style={{ fontSize: '2.5rem' }}>Olive Young Admin</h1>
                 </div>
-                <p style={{ color: 'var(--text-sub)' }}>Generate and manage QR codes for offline products.</p>
+                <p style={{ color: 'var(--text-sub)' }}>Generate and manage QR codes for store products.</p>
 
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1.5rem' }}>
                     <button

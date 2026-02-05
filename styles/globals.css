@@ -1,12 +1,14 @@
 :root {
-  --primary: #2d2a29;
-  --accent: #d4af37;
-  --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-  --glass: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.5);
-  --text-main: #333;
-  --text-sub: #666;
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  --primary: #8da61d;
+  /* Olive Young Green */
+  --accent: #f27474;
+  /* Olive Young Coral/Pink */
+  --bg-gradient: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  --glass: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(141, 166, 29, 0.2);
+  --text-main: #222;
+  --text-sub: #555;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
 }
 
 * {
@@ -26,8 +28,9 @@ body {
 h1,
 h2,
 h3 {
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   color: var(--primary);
 }
 

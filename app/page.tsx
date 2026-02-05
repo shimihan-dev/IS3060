@@ -7,12 +7,12 @@ export default function Home() {
     return (
         <div className="container animate-in" style={{ textAlign: 'center', paddingTop: '10vh' }}>
             <div style={{ marginBottom: '3rem' }}>
-                <span className="badge" style={{ marginBottom: '1rem' }}>Welcome to Aura</span>
-                <h1 style={{ fontSize: '3.5rem', lineHeight: '1.1', marginBottom: '1.5rem' }}>
-                    Beauty Beyond <br /> <span style={{ color: 'var(--accent)' }}>The Surface</span>
+                <span className="badge" style={{ marginBottom: '1rem', background: 'rgba(141, 166, 29, 0.1)' }}>Welcome to Olive Young</span>
+                <h1 style={{ fontSize: '3rem', lineHeight: '1.2', marginBottom: '1.5rem' }}>
+                    Smart <br /> <span style={{ color: 'var(--accent)' }}>Beauty Scanner</span>
                 </h1>
                 <p style={{ color: 'var(--text-sub)', maxWidth: '300px', margin: '0 auto 2.5rem' }}>
-                    Experience personalized cosmetic insights through our smart offline scanner.
+                    Explore product ingredients and find the perfect match for your skin.
                 </p>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>

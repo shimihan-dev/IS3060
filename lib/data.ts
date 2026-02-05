@@ -18,8 +18,8 @@ export type Product = {
 
 export const products: Product[] = [
     {
-        id: "aura-h-serum",
-        name: "Hyaluronic Water Serum",
+        id: "oy-h-serum",
+        name: "Olive Young Hyaluronic Serum",
         category: "Skincare",
         description: "A deep-hydrating serum with 5-layered hyaluronic acid that provides instant plumpness and long-lasting moisture. Perfect for a dewy, healthy glow.",
         image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800",
@@ -34,8 +34,8 @@ export const products: Product[] = [
         compatibility: { Dry: 98, Oily: 72, Combination: 88, Sensitive: 95 }
     },
     {
-        id: "aura-m-oil",
-        name: "Midnight Recovery Oil",
+        id: "oy-m-oil",
+        name: "Olive Young Recovery Oil",
         category: "Treatment",
         description: "A luxurious overnight oil that repairs and revitalizes skin while you sleep. Infused with botanical extracts to restore skin's natural barrier.",
         image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800",
@@ -50,8 +50,8 @@ export const products: Product[] = [
         compatibility: { Dry: 95, Oily: 45, Combination: 80, Sensitive: 92 }
     },
     {
-        id: "aura-spf50",
-        name: "Daily Shield SPF 50+",
+        id: "oy-spf50",
+        name: "Olive Young Daily Sunscreen",
         category: "Protection",
         description: "An ultra-lightweight sunscreen that provides high-level defense against UVA/UVB rays without any white cast or stickiness.",
         image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d521?auto=format&fit=crop&q=80&w=800",
@@ -66,8 +66,8 @@ export const products: Product[] = [
         compatibility: { Dry: 90, Oily: 85, Combination: 92, Sensitive: 98 }
     },
     {
-        id: "aura-c-cleanser",
-        name: "C-Bright Cleansing Foam",
+        id: "oy-c-cleanser",
+        name: "Olive Young Bright Cleanser",
         category: "Cleanser",
         description: "A brightening cleanser infused with Vitamin C to gently remove impurities while evening out skin tone and revealing a radiant complexion.",
         image: "https://images.unsplash.com/photo-1556228443-72249c424783?auto=format&fit=crop&q=80&w=800",

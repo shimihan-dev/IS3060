@@ -2,8 +2,8 @@ import '../styles/globals.css';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'AURA | Product Scanner',
-    description: 'Premium Offline Cosmetic Experience',
+    title: 'OLIVE YOUNG | Product Scanner',
+    description: 'Personalized Beauty Experience',
 };
 
 export default function RootLayout({
