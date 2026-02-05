@@ -4,12 +4,13 @@ import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { products, SkinType } from '@/lib/data';
-import { ChevronLeft, Info, Droplets, Sparkles, Tag, Fingerprint } from 'lucide-react';
+import { ChevronLeft, Info, Droplets, Sparkles, Tag, Fingerprint, BarChart3 } from 'lucide-react';
 
 export default function ProductDetailPage() {
     const { id } = useParams();
     const router = useRouter();
     const [skinType, setSkinType] = useState<SkinType | null>(null);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     // Load skin type from localStorage on mount
     useEffect(() => {
@@ -17,6 +18,7 @@ export default function ProductDetailPage() {
         if (savedType) {
             setSkinType(savedType);
         }
+        setIsLoaded(true);
     }, []);
 
     const handleSkinTypeChange = (type: SkinType) => {
@@ -66,6 +68,7 @@ export default function ProductDetailPage() {
                     cursor: 'pointer',
                     fontSize: '0.9rem'
                 }}
+                className="no-print"
             >
                 <ChevronLeft size={18} /> Back
             </button>
@@ -105,7 +108,7 @@ export default function ProductDetailPage() {
                     </p>
 
                     {/* Skin Type Selector */}
-                    <div className="glass-card" style={{ background: '#fcfcfc', padding: '1.25rem', marginBottom: '2rem', border: '1px solid #f0f0f0' }}>
+                    <div className="glass-card" style={{ background: '#fcfcfc', padding: '1.25rem', marginBottom: '1.5rem', border: '1px solid #f0f0f0' }}>
                         <h4 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', marginBottom: '1rem' }}>
                             <Fingerprint size={16} color="var(--accent)" />
                             {skinType ? 'Your Skin Profile' : 'Select Your Skin Type'}
@@ -121,11 +124,30 @@ export default function ProductDetailPage() {
                                 </button>
                             ))}
                         </div>
-                        {!skinType && (
-                            <p style={{ fontSize: '0.75rem', color: '#999', marginTop: '0.75rem', textAlign: 'center' }}>
-                                Select a type to see personalized compatibility.
-                            </p>
-                        )}
+                    </div>
+
+                    {/* Compatibility Graph */}
+                    <div className="glass-card" style={{ background: 'white', padding: '1.25rem', marginBottom: '2rem', border: '1px solid #f0f0f0' }}>
+                        <h4 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', marginBottom: '1.25rem' }}>
+                            <BarChart3 size={16} color="var(--accent)" />
+                            Skin Type Compatibility
+                        </h4>
+                        <div className="chart-container">
+                            {(['Dry', 'Oily', 'Combination', 'Sensitive'] as SkinType[]).map((type) => (
+                                <div key={type} className="bar-wrapper">
+                                    <span className="bar-label" style={{ color: skinType === type ? 'var(--accent)' : 'var(--text-sub)' }}>
+                                        {type}
+                                    </span>
+                                    <div className="bar-bg">
+                                        <div
+                                            className={`bar-fill ${skinType === type ? 'highlight' : ''}`}
+                                            style={{ width: isLoaded ? `${product.compatibility[type]}%` : '0%' }}
+                                        />
+                                    </div>
+                                    <span className="bar-value">{product.compatibility[type]}%</span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
 
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem', marginBottom: '2rem' }}>
@@ -170,7 +192,7 @@ export default function ProductDetailPage() {
                         </div>
                     </section>
 
-                    <button className="premium-button" style={{ width: '100%', marginTop: '2.5rem', height: '56px' }}>
+                    <button className="premium-button no-print" style={{ width: '100%', marginTop: '2.5rem', height: '56px' }}>
                         <Tag size={20} /> Reserve in Store
                     </button>
                 </div>

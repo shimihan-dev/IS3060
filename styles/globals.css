@@ -121,6 +121,55 @@ h3 {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Visualization Graph */
+.chart-container {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.bar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.bar-label {
+  width: 80px;
+  font-size: 0.75rem;
+  color: var(--text-sub);
+  font-weight: 500;
+}
+
+.bar-bg {
+  flex: 1;
+  height: 8px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bar-fill {
+  height: 100%;
+  background: #eee;
+  border-radius: 4px;
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bar-fill.highlight {
+  background: var(--accent);
+}
+
+.bar-value {
+  width: 30px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: right;
+  color: var(--primary);
+}
+
 /* Animations */
 @keyframes fadeIn {
   from {
