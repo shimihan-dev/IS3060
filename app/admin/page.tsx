@@ -27,7 +27,17 @@ export default function AdminPage() {
                 </div>
                 <p style={{ color: 'var(--text-sub)' }}>Generate and manage QR codes for offline products.</p>
 
-                <div className="glass-card" style={{ marginTop: '2rem', textAlign: 'left' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1.5rem' }}>
+                    <button
+                        className="premium-button"
+                        onClick={() => window.print()}
+                        style={{ background: 'var(--accent)', fontSize: '0.9rem' }}
+                    >
+                        <Download size={18} /> Print All QR Codes
+                    </button>
+                </div>
+
+                <div className="glass-card no-print" style={{ marginTop: '2rem', textAlign: 'left' }}>
                     <label style={{ fontSize: '0.8rem', fontWeight: '600', color: 'var(--text-sub)', display: 'block', marginBottom: '0.5rem' }}>
                         Base URL (Production or Local IP)
                     </label>

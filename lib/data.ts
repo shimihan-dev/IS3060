@@ -18,66 +18,67 @@ export type Product = {
 
 export const products: Product[] = [
     {
-        id: "aqua-serum-01",
-        name: "Aura Aqua Serum",
+        id: "aura-h-serum",
+        name: "Hyaluronic Water Serum",
         category: "Skincare",
-        description: "A lightweight, deep-hydrating serum that leaves your skin glowing and plump. Formulated with 5 types of hyaluronic acid for multi-layered hydration.",
+        description: "A deep-hydrating serum with 5-layered hyaluronic acid that provides instant plumpness and long-lasting moisture. Perfect for a dewy, healthy glow.",
         image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800",
-        price: "$45.00",
+        price: "$42.00",
         details: [
-            { label: "Skin Type", value: "All Skin Types" },
             { label: "Volume", value: "50ml" },
-            { label: "Concerns", value: "Dryness, Dullness" }
+            { label: "Texture", value: "Lightwater" },
+            { label: "Best for", value: "Hydration" }
         ],
-        usage: "Apply 2-3 drops to clean skin before moisturizing. Gently pat until absorbed.",
-        ingredients: ["Hyaluronic Acid", "Niacinamide", "Glycerin", "Ceramides", "Aloe Vera Extract"],
-        compatibility: {
-            Dry: 98,
-            Oily: 75,
-            Combination: 90,
-            Sensitive: 95
-        }
+        usage: "Apply 2-3 drops to face after toning. Pat gently for absorption.",
+        ingredients: ["5-layered Hyaluronic Acid", "Niacinamide", "Panthenol", "Allantoin"],
+        compatibility: { Dry: 98, Oily: 72, Combination: 88, Sensitive: 95 }
     },
     {
-        id: "velvet-tint-02",
-        name: "Velvet Lip Tint - Rose",
-        category: "Makeup",
-        description: "A soft, weightless lip tint that provides a natural blurred finish. High-pigment formula that stays comfortable all day without drying.",
-        image: "https://images.unsplash.com/photo-1586776977607-310e9c725c37?auto=format&fit=crop&q=80&w=800",
-        price: "$18.00",
-        details: [
-            { label: "Finish", value: "Soft Matte" },
-            { label: "Weight", value: "4.5g" },
-            { label: "Tone", value: "Cool Rose" }
-        ],
-        usage: "Apply to the center of your lips and blend outwards for a gradient effect, or apply full for a bold look.",
-        ingredients: ["Dimethicone", "Jojoba Oil", "Vitamin E", "Red 7 Lake", "Titanium Dioxide"],
-        compatibility: {
-            Dry: 85,
-            Oily: 95,
-            Combination: 90,
-            Sensitive: 80
-        }
-    },
-    {
-        id: "glow-cream-03",
-        name: "Radiant Glow Cream",
-        category: "Skincare",
-        description: "Luxury moisturizing cream that brightens and firms. Infused with pearl extract for an instant illuminating effect.",
+        id: "aura-m-oil",
+        name: "Midnight Recovery Oil",
+        category: "Treatment",
+        description: "A luxurious overnight oil that repairs and revitalizes skin while you sleep. Infused with botanical extracts to restore skin's natural barrier.",
         image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800",
-        price: "$62.00",
+        price: "$58.00",
         details: [
-            { label: "Skin Type", value: "Dry, Combination" },
-            { label: "Volume", value: "60ml" },
-            { label: "Benefits", value: "Brightening, Anti-aging" }
+            { label: "Volume", value: "30ml" },
+            { label: "Texture", value: "Rich Oil" },
+            { label: "Best for", value: "Repair" }
         ],
-        usage: "Morning and night, massage a small amount onto face and neck as the final step of your skincare routine.",
-        ingredients: ["Pearl Extract", "Squalane", "Shea Butter", "Peptides", "Gold Flakes"],
-        compatibility: {
-            Dry: 95,
-            Oily: 60,
-            Combination: 85,
-            Sensitive: 75
-        }
+        usage: "Warm 2 drops in palms and press onto face before sleep.",
+        ingredients: ["Squalane", "Rosehip Oil", "Evening Primrose", "Lavender Oil"],
+        compatibility: { Dry: 95, Oily: 45, Combination: 80, Sensitive: 92 }
+    },
+    {
+        id: "aura-spf50",
+        name: "Daily Shield SPF 50+",
+        category: "Protection",
+        description: "An ultra-lightweight sunscreen that provides high-level defense against UVA/UVB rays without any white cast or stickiness.",
+        image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d521?auto=format&fit=crop&q=80&w=800",
+        price: "$35.00",
+        details: [
+            { label: "Volume", value: "60ml" },
+            { label: "SPF", value: "50+ PA++++" },
+            { label: "Finish", value: "Natural" }
+        ],
+        usage: "Apply generously as the final step of your skincare routine.",
+        ingredients: ["Zinc Oxide", "Titanium Dioxide", "Centella Asiatica", "Green Tea"],
+        compatibility: { Dry: 90, Oily: 85, Combination: 92, Sensitive: 98 }
+    },
+    {
+        id: "aura-c-cleanser",
+        name: "C-Bright Cleansing Foam",
+        category: "Cleanser",
+        description: "A brightening cleanser infused with Vitamin C to gently remove impurities while evening out skin tone and revealing a radiant complexion.",
+        image: "https://images.unsplash.com/photo-1556228443-72249c424783?auto=format&fit=crop&q=80&w=800",
+        price: "$28.00",
+        details: [
+            { label: "Volume", value: "150ml" },
+            { label: "Texture", value: "Creamy Foam" },
+            { label: "Key Benefit", value: "Brightening" }
+        ],
+        usage: "Lather with water and massage onto damp skin. Rinse thoroughly.",
+        ingredients: ["Vitamin C", "Lemon Extract", "Salicylic Acid", "Glycerin"],
+        compatibility: { Dry: 82, Oily: 95, Combination: 90, Sensitive: 75 }
     }
 ];
