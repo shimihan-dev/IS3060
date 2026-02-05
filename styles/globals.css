@@ -88,6 +88,39 @@ h3 {
   margin-bottom: 0.5rem;
 }
 
+.skin-type-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  color: var(--text-sub);
+}
+
+.skin-type-btn.active {
+  border-color: var(--accent);
+  background: rgba(212, 175, 55, 0.05);
+  color: var(--accent);
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.1);
+}
+
+.match-score-badge {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 15px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
 /* Animations */
 @keyframes fadeIn {
   from {

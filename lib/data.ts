@@ -1,3 +1,5 @@
+export type SkinType = 'Dry' | 'Oily' | 'Combination' | 'Sensitive';
+
 export type Product = {
     id: string;
     name: string;
@@ -11,6 +13,7 @@ export type Product = {
     }[];
     usage: string;
     ingredients: string[];
+    compatibility: Record<SkinType, number>;
 };
 
 export const products: Product[] = [
@@ -27,7 +30,13 @@ export const products: Product[] = [
             { label: "Concerns", value: "Dryness, Dullness" }
         ],
         usage: "Apply 2-3 drops to clean skin before moisturizing. Gently pat until absorbed.",
-        ingredients: ["Hyaluronic Acid", "Niacinamide", "Glycerin", "Ceramides", "Aloe Vera Extract"]
+        ingredients: ["Hyaluronic Acid", "Niacinamide", "Glycerin", "Ceramides", "Aloe Vera Extract"],
+        compatibility: {
+            Dry: 98,
+            Oily: 75,
+            Combination: 90,
+            Sensitive: 95
+        }
     },
     {
         id: "velvet-tint-02",
@@ -42,7 +51,13 @@ export const products: Product[] = [
             { label: "Tone", value: "Cool Rose" }
         ],
         usage: "Apply to the center of your lips and blend outwards for a gradient effect, or apply full for a bold look.",
-        ingredients: ["Dimethicone", "Jojoba Oil", "Vitamin E", "Red 7 Lake", "Titanium Dioxide"]
+        ingredients: ["Dimethicone", "Jojoba Oil", "Vitamin E", "Red 7 Lake", "Titanium Dioxide"],
+        compatibility: {
+            Dry: 85,
+            Oily: 95,
+            Combination: 90,
+            Sensitive: 80
+        }
     },
     {
         id: "glow-cream-03",
@@ -57,6 +72,12 @@ export const products: Product[] = [
             { label: "Benefits", value: "Brightening, Anti-aging" }
         ],
         usage: "Morning and night, massage a small amount onto face and neck as the final step of your skincare routine.",
-        ingredients: ["Pearl Extract", "Squalane", "Shea Butter", "Peptides", "Gold Flakes"]
+        ingredients: ["Pearl Extract", "Squalane", "Shea Butter", "Peptides", "Gold Flakes"],
+        compatibility: {
+            Dry: 95,
+            Oily: 60,
+            Combination: 85,
+            Sensitive: 75
+        }
     }
 ];

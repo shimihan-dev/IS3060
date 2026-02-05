@@ -1,14 +1,35 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
+import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
-import { products } from '@/lib/data';
-import { ChevronLeft, Info, Droplets, Sparkles, Tag } from 'lucide-react';
+import { products, SkinType } from '@/lib/data';
+import { ChevronLeft, Info, Droplets, Sparkles, Tag, Fingerprint } from 'lucide-react';
 
 export default function ProductDetailPage() {
     const { id } = useParams();
     const router = useRouter();
+    const [skinType, setSkinType] = useState<SkinType | null>(null);
+
+    // Load skin type from localStorage on mount
+    useEffect(() => {
+        const savedType = localStorage.getItem('aura_skin_type') as SkinType;
+        if (savedType) {
+            setSkinType(savedType);
+        }
+    }, []);
+
+    const handleSkinTypeChange = (type: SkinType) => {
+        setSkinType(type);
+        localStorage.setItem('aura_skin_type', type);
+    };
+
     const product = products.find((p) => p.id === id);
+
+    const matchScore = useMemo(() => {
+        if (!product || !skinType) return null;
+        return product.compatibility[skinType];
+    }, [product, skinType]);
 
     if (!product) {
         return (
@@ -62,9 +83,18 @@ export default function ProductDetailPage() {
                         bottom: '0',
                         left: '0',
                         right: '0',
-                        background: 'linear-gradient(to top, rgba(0,0,0,0.4), transparent)',
-                        height: '100px'
+                        background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)',
+                        height: '120px'
                     }} />
+
+                    {matchScore !== null && (
+                        <div style={{ position: 'absolute', top: '1rem', right: '1rem' }}>
+                            <div className="match-score-badge">
+                                <Sparkles size={16} />
+                                {matchScore}% Match
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 <div style={{ padding: '2rem' }}>
@@ -73,6 +103,30 @@ export default function ProductDetailPage() {
                     <p style={{ fontSize: '1.25rem', color: 'var(--accent)', fontWeight: '700', marginBottom: '1.5rem' }}>
                         {product.price}
                     </p>
+
+                    {/* Skin Type Selector */}
+                    <div className="glass-card" style={{ background: '#fcfcfc', padding: '1.25rem', marginBottom: '2rem', border: '1px solid #f0f0f0' }}>
+                        <h4 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', marginBottom: '1rem' }}>
+                            <Fingerprint size={16} color="var(--accent)" />
+                            {skinType ? 'Your Skin Profile' : 'Select Your Skin Type'}
+                        </h4>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.5rem' }}>
+                            {(['Dry', 'Oily', 'Combination', 'Sensitive'] as SkinType[]).map((type) => (
+                                <button
+                                    key={type}
+                                    className={`skin-type-btn ${skinType === type ? 'active' : ''}`}
+                                    onClick={() => handleSkinTypeChange(type)}
+                                >
+                                    {type}
+                                </button>
+                            ))}
+                        </div>
+                        {!skinType && (
+                            <p style={{ fontSize: '0.75rem', color: '#999', marginTop: '0.75rem', textAlign: 'center' }}>
+                                Select a type to see personalized compatibility.
+                            </p>
+                        )}
+                    </div>
 
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem', marginBottom: '2rem' }}>
                         {product.details.map((detail) => (
