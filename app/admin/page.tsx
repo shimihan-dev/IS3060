@@ -2,70 +2,116 @@
 
 import { useState, useEffect } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-import { products } from '@/lib/products';
+import { products } from '@/lib/data';
+import { Download, ExternalLink, RefreshCw, LayoutDashboard } from 'lucide-react';
+import Link from 'next/link';
 
 export default function AdminPage() {
     const [host, setHost] = useState('https://is-3060.vercel.app');
 
     useEffect(() => {
-        // If we're on localhost, we might want to keep the override option, 
-        // but for the production build, we want the Vercel URL.
         if (typeof window !== 'undefined' && !window.location.hostname.includes('localhost')) {
             setHost(window.location.origin);
+        } else if (typeof window !== 'undefined') {
+            // Default for local development
+            setHost(`http://${window.location.hostname}:3000`);
         }
     }, []);
 
     return (
-        <div className="container">
+        <div className="container animate-in">
             <header style={{ textAlign: 'center', marginBottom: '3rem' }}>
-                <h1 style={{ fontSize: '2.5rem', color: 'var(--primary)' }}>Aura Admin</h1>
-                <p>Manage products and generate QR codes for your store.</p>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                    <LayoutDashboard size={28} color="var(--accent)" />
+                    <h1 style={{ fontSize: '2.5rem' }}>Aura Staff</h1>
+                </div>
+                <p style={{ color: 'var(--text-sub)' }}>Generate and manage QR codes for offline products.</p>
 
-                <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center' }}>
-                    <label style={{ fontSize: '0.9rem', color: '#666' }}>
-                        Mobile Testing: Enter your computer's IP address (e.g., http://192.168.0.10:3000)
+                <div className="glass-card" style={{ marginTop: '2rem', textAlign: 'left' }}>
+                    <label style={{ fontSize: '0.8rem', fontWeight: '600', color: 'var(--text-sub)', display: 'block', marginBottom: '0.5rem' }}>
+                        Base URL (Production or Local IP)
                     </label>
-                    <input
-                        type="text"
-                        value={host}
-                        onChange={(e) => setHost(e.target.value)}
-                        placeholder="http://192.168.x.x:3000"
-                        style={{
-                            padding: '0.5rem 1rem',
-                            borderRadius: '10px',
-                            border: '1px solid #ddd',
-                            width: '100%',
-                            maxWidth: '400px'
-                        }}
-                    />
-                    <p style={{ fontSize: '0.8rem', color: '#999' }}>
-                        ※ 스마트폰으로 테스트하려면 컴퓨터의 IP 주소를 입력해야 합니다.
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <input
+                            type="text"
+                            value={host}
+                            onChange={(e) => setHost(e.target.value)}
+                            placeholder="https://your-app.vercel.app"
+                            style={{
+                                padding: '0.75rem 1rem',
+                                borderRadius: '12px',
+                                border: '1px solid #ddd',
+                                flex: 1,
+                                fontSize: '0.9rem'
+                            }}
+                        />
+                        <button
+                            onClick={() => setHost(window.location.origin)}
+                            style={{
+                                background: '#f0f0f0',
+                                border: 'none',
+                                padding: '0 1rem',
+                                borderRadius: '12px',
+                                cursor: 'pointer'
+                            }}
+                            title="Reset to current origin"
+                        >
+                            <RefreshCw size={18} />
+                        </button>
+                    </div>
+                    <p style={{ fontSize: '0.75rem', color: '#999', marginTop: '0.5rem' }}>
+                        ※ For phone testing, enter your computer\'s local IP address (e.g., http://192.168.x.x:3000).
                     </p>
                 </div>
             </header>
 
-            <div style={{ display: 'grid', gap: '2rem' }}>
+            <div style={{ display: 'grid', gap: '1.5rem' }}>
                 {products.map((product) => (
-                    <div key={product.id} className="glass-card" style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+                    <div key={product.id} className="glass-card" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', padding: '1.25rem' }}>
                         <div style={{ flex: 1 }}>
-                            <h3>{product.name}</h3>
-                            <p style={{ fontSize: '0.9rem', color: '#666' }}>{product.category}</p>
+                            <span className="badge" style={{ fontSize: '0.65rem' }}>{product.id}</span>
+                            <h3 style={{ fontSize: '1.1rem', marginBottom: '0.25rem' }}>{product.name}</h3>
+                            <p style={{ fontSize: '0.85rem', color: 'var(--text-sub)' }}>{product.category}</p>
+
+                            <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem' }}>
+                                <Link
+                                    href={`/product/${product.id}`}
+                                    style={{ fontSize: '0.8rem', color: 'var(--accent)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.3rem' }}
+                                >
+                                    <ExternalLink size={14} /> Preview Page
+                                </Link>
+                            </div>
                         </div>
-                        <div style={{ textAlign: 'center' }}>
+
+                        <div style={{ textAlign: 'center', background: 'white', padding: '1rem', borderRadius: '16px', border: '1px solid #eee' }}>
                             <QRCodeSVG
                                 value={`${host}/product/${product.id}`}
-                                size={120}
-                                fgColor="#2d2a29"
+                                size={100}
                                 level="H"
                                 includeMargin
                             />
-                            <p style={{ fontSize: '0.6rem', color: '#888', maxWidth: '120px', overflowWrap: 'break-word' }}>
-                                {`${host}/product/${product.id}`}
-                            </p>
-                            <p style={{ fontSize: '0.7rem', marginTop: '0.5rem', color: 'var(--accent)' }}>SCAN ME</p>
+                            <p style={{ fontSize: '0.7rem', marginTop: '0.5rem', fontWeight: '600', color: 'var(--primary)' }}>SCAN ME</p>
+                            <button
+                                style={{ background: 'none', border: 'none', color: '#999', cursor: 'pointer', marginTop: '0.25rem' }}
+                                onClick={() => {
+                                    const svg = document.querySelector(`[value="${host}/product/${product.id}"]`) as HTMLElement;
+                                    if (svg) {
+                                        // Simple way to trigger print/save for the user
+                                        window.print();
+                                    }
+                                }}
+                            >
+                                <Download size={14} />
+                            </button>
                         </div>
                     </div>
                 ))}
+            </div>
+
+            <div style={{ marginTop: '3rem', textAlign: 'center' }}>
+                <Link href="/" style={{ color: 'var(--text-sub)', fontSize: '0.9rem', textDecoration: 'none' }}>
+                    &larr; Return to Home
+                </Link>
             </div>
         </div>
     );

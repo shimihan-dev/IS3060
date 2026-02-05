@@ -1,28 +1,54 @@
 'use client';
 
-import { useParams } from 'next/navigation';
-import { useState, useMemo } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { products, SkinType } from '@/lib/products';
-import { Sparkles, Info, Droplets, FlaskConical } from 'lucide-react';
+import { products } from '@/lib/data';
+import { ChevronLeft, Info, Droplets, Sparkles, Tag } from 'lucide-react';
 
 export default function ProductDetailPage() {
     const { id } = useParams();
-    const [skinType, setSkinType] = useState<SkinType>('Dry');
-
+    const router = useRouter();
     const product = products.find((p) => p.id === id);
 
-    const recommendationScore = useMemo(() => {
-        if (!product) return 0;
-        return product.compatibility[skinType];
-    }, [product, skinType]);
-
     if (!product) {
-        return <div className="container">Product not found.</div>;
+        return (
+            <div className="container animate-in">
+                <div className="glass-card" style={{ textAlign: 'center' }}>
+                    <h2>Product Not Found</h2>
+                    <p style={{ marginTop: '1rem', color: 'var(--text-sub)' }}>
+                        This QR code might be invalid or the product has been removed.
+                    </p>
+                    <button
+                        className="premium-button"
+                        style={{ marginTop: '2rem' }}
+                        onClick={() => router.push('/')}
+                    >
+                        Go Back Home
+                    </button>
+                </div>
+            </div>
+        );
     }
 
     return (
-        <div className="container">
+        <div className="container animate-in">
+            <button
+                onClick={() => router.back()}
+                style={{
+                    background: 'none',
+                    border: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    color: 'var(--text-sub)',
+                    marginBottom: '1.5rem',
+                    cursor: 'pointer',
+                    fontSize: '0.9rem'
+                }}
+            >
+                <ChevronLeft size={18} /> Back
+            </button>
+
             <div className="glass-card" style={{ padding: '0', overflow: 'hidden' }}>
                 <div style={{ position: 'relative', width: '100%', height: '350px' }}>
                     <Image
@@ -31,77 +57,67 @@ export default function ProductDetailPage() {
                         fill
                         style={{ objectFit: 'cover' }}
                     />
+                    <div style={{
+                        position: 'absolute',
+                        bottom: '0',
+                        left: '0',
+                        right: '0',
+                        background: 'linear-gradient(to top, rgba(0,0,0,0.4), transparent)',
+                        height: '100px'
+                    }} />
                 </div>
 
                 <div style={{ padding: '2rem' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                        <div>
-                            <p style={{ color: 'var(--primary)', fontWeight: '600', fontSize: '0.9rem', marginBottom: '0.2rem' }}>{product.category}</p>
-                            <h2>{product.name}</h2>
-                        </div>
-                        <div style={{ textAlign: 'right' }}>
-                            <div style={{
-                                background: 'linear-gradient(135deg, var(--primary), var(--accent))',
-                                color: 'white',
-                                padding: '0.5rem 1rem',
-                                borderRadius: '15px',
-                                fontWeight: 'bold',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.4rem'
-                            }}>
-                                <Sparkles size={16} />
-                                {recommendationScore}% Match
-                            </div>
-                        </div>
-                    </div>
+                    <span className="badge">{product.category}</span>
+                    <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{product.name}</h1>
+                    <p style={{ fontSize: '1.25rem', color: 'var(--accent)', fontWeight: '700', marginBottom: '1.5rem' }}>
+                        {product.price}
+                    </p>
 
-                    <div style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem', overflowX: 'auto', paddingBottom: '0.5rem' }}>
-                        {(['Dry', 'Oily', 'Combination', 'Sensitive'] as SkinType[]).map((type) => (
-                            <button
-                                key={type}
-                                onClick={() => setSkinType(type)}
-                                style={{
-                                    padding: '0.4rem 1rem',
-                                    borderRadius: '20px',
-                                    border: skinType === type ? '2px solid var(--primary)' : '1px solid #ddd',
-                                    background: skinType === type ? 'var(--secondary)' : 'white',
-                                    cursor: 'pointer',
-                                    whiteSpace: 'nowrap',
-                                    fontWeight: skinType === type ? '600' : '400',
-                                    transition: 'all 0.2s'
-                                }}
-                            >
-                                {type}
-                            </button>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem', marginBottom: '2rem' }}>
+                        {product.details.map((detail) => (
+                            <div key={detail.label} style={{ background: '#f8f9fa', padding: '0.75rem', borderRadius: '12px', textAlign: 'center' }}>
+                                <p style={{ fontSize: '0.7rem', color: 'var(--text-sub)', textTransform: 'uppercase' }}>{detail.label}</p>
+                                <p style={{ fontSize: '0.8rem', fontWeight: '600' }}>{detail.value}</p>
+                            </div>
                         ))}
                     </div>
 
-                    <div style={{ marginTop: '2rem' }}>
-                        <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.2rem' }}>
-                            <Info size={18} /> Description
+                    <section style={{ marginBottom: '2rem' }}>
+                        <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.1rem', marginBottom: '0.75rem' }}>
+                            <Info size={18} color="var(--accent)" /> Detailed Description
                         </h3>
-                        <p style={{ color: '#555', marginBottom: '1.5rem' }}>{product.description}</p>
+                        <p style={{ color: 'var(--text-sub)', fontSize: '0.95rem' }}>{product.description}</p>
+                    </section>
 
-                        <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.2rem' }}>
-                            <Droplets size={18} /> How to Use
+                    <section style={{ marginBottom: '2rem' }}>
+                        <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.1rem', marginBottom: '0.75rem' }}>
+                            <Droplets size={18} color="var(--accent)" /> How to Use
                         </h3>
-                        <p style={{ color: '#555', marginBottom: '1.5rem' }}>{product.usage}</p>
+                        <p style={{ color: 'var(--text-sub)', fontSize: '0.95rem' }}>{product.usage}</p>
+                    </section>
 
-                        <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.2rem' }}>
-                            <FlaskConical size={18} /> Ingredients
+                    <section>
+                        <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.1rem', marginBottom: '1rem' }}>
+                            <Sparkles size={18} color="var(--accent)" /> Key Ingredients
                         </h3>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                             {product.ingredients.map((ing) => (
-                                <span key={ing} style={{ background: '#f0f0f0', padding: '0.3rem 0.8rem', borderRadius: '5px', fontSize: '0.85rem' }}>
+                                <span key={ing} style={{
+                                    background: '#f0f0f0',
+                                    padding: '0.4rem 0.8rem',
+                                    borderRadius: '8px',
+                                    fontSize: '0.8rem',
+                                    color: '#444'
+                                }}>
                                     {ing}
                                 </span>
                             ))}
                         </div>
-                    </div>
+                    </section>
 
-                    <button className="premium-button" style={{ width: '100%', marginTop: '2rem', height: '50px' }}>
-                        Add to Wishlist
+                    <button className="premium-button" style={{ width: '100%', marginTop: '2.5rem', height: '56px' }}>
+                        <Tag size={20} /> Reserve in Store
                     </button>
                 </div>
             </div>

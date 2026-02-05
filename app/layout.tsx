@@ -2,8 +2,8 @@ import '../styles/globals.css';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Aura Beauty QR Recommender',
-    description: 'Premium AI Cosmetic Recommendations',
+    title: 'AURA | Product Scanner',
+    description: 'Premium Offline Cosmetic Experience',
 };
 
 export default function RootLayout({
