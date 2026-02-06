@@ -1,37 +1,109 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import Image from 'next/image';
 import { products, SkinType } from '@/lib/data';
-import { ChevronLeft, Info, Droplets, Sparkles, Tag, Fingerprint, BarChart3 } from 'lucide-react';
+import { ChevronLeft, Info, Droplets, Sparkles, Tag, Fingerprint, BarChart3, Globe, Loader2 } from 'lucide-react';
+
+type Language = 'ko' | 'en' | 'ja' | 'zh';
+
+const languageLabels: Record<Language, string> = {
+    ko: '🇰🇷 한국어',
+    en: '🇺🇸 English',
+    ja: '🇯🇵 日本語',
+    zh: '🇨🇳 中文',
+};
 
 export default function ProductDetailPage() {
     const { id } = useParams();
     const router = useRouter();
     const [skinType, setSkinType] = useState<SkinType | null>(null);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [language, setLanguage] = useState<Language>('ko');
+    const [translatedContent, setTranslatedContent] = useState<{
+        description: string;
+        usage: string;
+    } | null>(null);
+    const [isTranslating, setIsTranslating] = useState(false);
 
-    // Load skin type from localStorage on mount
+    const product = products.find((p) => p.id === id);
+
+    // Load skin type and language from localStorage on mount
     useEffect(() => {
-        const savedType = localStorage.getItem('aura_skin_type') as SkinType;
-        if (savedType) {
-            setSkinType(savedType);
-        }
+        const savedType = localStorage.getItem('oy_skin_type') as SkinType;
+        const savedLang = localStorage.getItem('oy_language') as Language;
+        if (savedType) setSkinType(savedType);
+        if (savedLang) setLanguage(savedLang);
         setIsLoaded(true);
     }, []);
 
     const handleSkinTypeChange = (type: SkinType) => {
         setSkinType(type);
-        localStorage.setItem('aura_skin_type', type);
+        localStorage.setItem('oy_skin_type', type);
     };
 
-    const product = products.find((p) => p.id === id);
+    const translateContent = useCallback(async (targetLang: Language) => {
+        if (!product || targetLang === 'ko') {
+            setTranslatedContent(null);
+            return;
+        }
+
+        // Check cache
+        const cacheKey = `oy_translation_${product.id}_${targetLang}`;
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+            setTranslatedContent(JSON.parse(cached));
+            return;
+        }
+
+        setIsTranslating(true);
+        try {
+            const textToTranslate = `Description: ${product.description}\n\nUsage: ${product.usage}`;
+
+            const response = await fetch('/api/translate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: textToTranslate, targetLang }),
+            });
+
+            if (response.ok) {
+                const { translatedText } = await response.json();
+                const parts = translatedText.split('\n\n');
+                const description = parts[0]?.replace(/^Description:\s*/i, '').replace(/^설명:\s*/i, '') || product.description;
+                const usage = parts[1]?.replace(/^Usage:\s*/i, '').replace(/^사용법:\s*/i, '') || product.usage;
+
+                const content = { description, usage };
+                setTranslatedContent(content);
+                localStorage.setItem(cacheKey, JSON.stringify(content));
+            }
+        } catch (error) {
+            console.error('Translation failed:', error);
+        } finally {
+            setIsTranslating(false);
+        }
+    }, [product]);
+
+    const handleLanguageChange = (lang: Language) => {
+        setLanguage(lang);
+        localStorage.setItem('oy_language', lang);
+        translateContent(lang);
+    };
+
+    // Translate on initial load if not Korean
+    useEffect(() => {
+        if (isLoaded && language !== 'ko' && product) {
+            translateContent(language);
+        }
+    }, [isLoaded, language, product, translateContent]);
 
     const matchScore = useMemo(() => {
         if (!product || !skinType) return null;
         return product.compatibility[skinType];
     }, [product, skinType]);
+
+    const displayDescription = translatedContent?.description || product?.description || '';
+    const displayUsage = translatedContent?.usage || product?.usage || '';
 
     if (!product) {
         return (
@@ -55,23 +127,46 @@ export default function ProductDetailPage() {
 
     return (
         <div className="container animate-in">
-            <button
-                onClick={() => router.back()}
-                style={{
-                    background: 'none',
-                    border: 'none',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    color: 'var(--text-sub)',
-                    marginBottom: '1.5rem',
-                    cursor: 'pointer',
-                    fontSize: '0.9rem'
-                }}
-                className="no-print"
-            >
-                <ChevronLeft size={18} /> Back
-            </button>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                <button
+                    onClick={() => router.back()}
+                    style={{
+                        background: 'none',
+                        border: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        color: 'var(--text-sub)',
+                        cursor: 'pointer',
+                        fontSize: '0.9rem'
+                    }}
+                    className="no-print"
+                >
+                    <ChevronLeft size={18} /> Back
+                </button>
+
+                {/* Language Selector */}
+                <div className="no-print" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <Globe size={16} color="var(--text-sub)" />
+                    <select
+                        value={language}
+                        onChange={(e) => handleLanguageChange(e.target.value as Language)}
+                        style={{
+                            padding: '0.4rem 0.8rem',
+                            borderRadius: '8px',
+                            border: '1px solid #ddd',
+                            background: 'white',
+                            fontSize: '0.85rem',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        {Object.entries(languageLabels).map(([code, label]) => (
+                            <option key={code} value={code}>{label}</option>
+                        ))}
+                    </select>
+                    {isTranslating && <Loader2 size={16} className="spin" color="var(--accent)" />}
+                </div>
+            </div>
 
             <div className="glass-card" style={{ padding: '0', overflow: 'hidden' }}>
                 <div style={{ position: 'relative', width: '100%', height: '350px' }}>
@@ -163,14 +258,14 @@ export default function ProductDetailPage() {
                         <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.1rem', marginBottom: '0.75rem' }}>
                             <Info size={18} color="var(--accent)" /> Detailed Description
                         </h3>
-                        <p style={{ color: 'var(--text-sub)', fontSize: '0.95rem' }}>{product.description}</p>
+                        <p style={{ color: 'var(--text-sub)', fontSize: '0.95rem' }}>{displayDescription}</p>
                     </section>
 
                     <section style={{ marginBottom: '2rem' }}>
                         <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.1rem', marginBottom: '0.75rem' }}>
                             <Droplets size={18} color="var(--accent)" /> How to Use
                         </h3>
-                        <p style={{ color: 'var(--text-sub)', fontSize: '0.95rem' }}>{product.usage}</p>
+                        <p style={{ color: 'var(--text-sub)', fontSize: '0.95rem' }}>{displayUsage}</p>
                     </section>
 
                     <section>
