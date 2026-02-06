@@ -21,10 +21,12 @@ export default function AdminPage() {
     return (
         <div className="container animate-in">
             <header style={{ textAlign: 'center', marginBottom: '3rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-                    <LayoutDashboard size={28} color="var(--primary)" />
-                    <h1 style={{ fontSize: '2.5rem' }}>Olive Young Admin</h1>
-                </div>
+                <img
+                    src="/logo.png"
+                    alt="OLIVE YOUNG"
+                    style={{ height: '36px', marginBottom: '0.75rem' }}
+                />
+                <p style={{ fontSize: '1.1rem', fontWeight: '600', marginBottom: '0.25rem' }}>Admin Dashboard</p>
                 <p style={{ color: 'var(--text-sub)' }}>Generate and manage QR codes for store products.</p>
 
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1.5rem' }}>

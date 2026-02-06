@@ -7,8 +7,12 @@ export default function Home() {
     return (
         <div className="container animate-in" style={{ textAlign: 'center', paddingTop: '10vh' }}>
             <div style={{ marginBottom: '3rem' }}>
-                <span className="badge" style={{ marginBottom: '1rem', background: 'rgba(141, 166, 29, 0.1)' }}>Welcome to Olive Young</span>
-                <h1 style={{ fontSize: '3rem', lineHeight: '1.2', marginBottom: '1.5rem' }}>
+                <img
+                    src="/logo.png"
+                    alt="OLIVE YOUNG"
+                    style={{ height: '40px', marginBottom: '2rem' }}
+                />
+                <h1 style={{ fontSize: '2.5rem', lineHeight: '1.2', marginBottom: '1.5rem' }}>
                     Smart <br /> <span style={{ color: 'var(--accent)' }}>Beauty Scanner</span>
                 </h1>
                 <p style={{ color: 'var(--text-sub)', maxWidth: '300px', margin: '0 auto 2.5rem' }}>
