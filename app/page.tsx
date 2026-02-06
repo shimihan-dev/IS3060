@@ -10,7 +10,7 @@ export default function Home() {
                 <img
                     src="/logo.png"
                     alt="OLIVE YOUNG"
-                    style={{ height: '40px', marginBottom: '2rem' }}
+                    style={{ height: '120px', marginBottom: '2rem' }}
                 />
                 <h1 style={{ fontSize: '2.5rem', lineHeight: '1.2', marginBottom: '1.5rem' }}>
                     Smart <br /> <span style={{ color: 'var(--accent)' }}>Beauty Scanner</span>

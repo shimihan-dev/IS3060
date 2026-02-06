@@ -24,7 +24,7 @@ export default function AdminPage() {
                 <img
                     src="/logo.png"
                     alt="OLIVE YOUNG"
-                    style={{ height: '36px', marginBottom: '0.75rem' }}
+                    style={{ height: '90px', marginBottom: '0.75rem' }}
                 />
                 <p style={{ fontSize: '1.1rem', fontWeight: '600', marginBottom: '0.25rem' }}>Admin Dashboard</p>
                 <p style={{ color: 'var(--text-sub)' }}>Generate and manage QR codes for store products.</p>
